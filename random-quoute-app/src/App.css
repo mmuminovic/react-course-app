@@ -13,6 +13,10 @@
   min-width: 50%;
 }
 
+.quote-text {
+  font-style: italic;
+}
+
 .quote-card {
   border: 1px solid #555;
   border-radius: 10px;
