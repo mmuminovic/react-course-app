@@ -21,7 +21,8 @@ class App extends React.Component {
 
   componentDidUpdate() {
     console.log("DID UPDATE");
-    if (this.state.gameover === false) { // igra traje
+    if (this.state.gameover === false) {
+      // igra traje
       if (this.state.homeScore === 5) {
         console.log("Home is winner");
         this.setState({ gameover: true }); // prekini igru
@@ -50,7 +51,8 @@ class App extends React.Component {
             name="Guest"
             score={this.state.guestScore}
             goal={() => {
-              if (this.state.gameover === false) { // igra traje
+              if (this.state.gameover === false) {
+                // igra traje
                 this.setState({ guestScore: this.state.guestScore + 1 });
               }
             }}
