@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import ScoreCard from "./components/ScoreCard";
+import EventItem from "./components/EventItem";
 
 class App extends React.Component {
   state = {
@@ -30,6 +31,9 @@ class App extends React.Component {
   render() {
     const homeScores = this.getGoalNumber("home");
     const guestScores = this.getGoalNumber("guest");
+
+    console.log(this.state.scores);
+
     return (
       <div className="app">
         <div className="scores-container">
@@ -39,12 +43,24 @@ class App extends React.Component {
             goal={() => {
               this.goalScored("home", "goal");
             }}
+            yellowCard={() => {
+              this.goalScored("home", "yellowCard");
+            }}
+            redCard={() => {
+              this.goalScored("home", "redCard");
+            }}
           />
           <ScoreCard
             name="Guest"
             score={guestScores}
             goal={() => {
               this.goalScored("guest", "goal");
+            }}
+            yellowCard={() => {
+              this.goalScored("guest", "yellowCard");
+            }}
+            redCard={() => {
+              this.goalScored("guest", "redCard");
             }}
           />
         </div>
@@ -56,6 +72,32 @@ class App extends React.Component {
           }}
           placeholder="Unesite ime fudbalera"
         />
+
+        <div className="event-list">
+          {this.state.scores.map((item, index) => {
+            return <EventItem key={index} item={item} />;
+          })}
+          {/*           
+          <div className="event-list-item" style={{ textAlign: "left" }}>
+            <h4>Goal!</h4>
+            <p>Ronaldo</p>
+          </div>
+          <div
+            className="event-list-item"
+            style={{ textAlign: "left", backgroundColor: "yellow" }}
+          >
+            <h4>Yellow Card</h4>
+            <p>Casillas</p>
+          </div>
+          <div
+            className="event-list-item"
+            style={{ textAlign: "right", backgroundColor: "red" }}
+          >
+            <h4>Red Card</h4>
+            <p>Messi</p>
+          </div>
+           */}
+        </div>
       </div>
     );
   }

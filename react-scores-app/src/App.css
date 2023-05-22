@@ -7,7 +7,7 @@
   text-align: center;
   background-color: #282c34;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .scores-container {
@@ -24,9 +24,25 @@
   border-radius: 10px;
 }
 
+.event-list {
+  padding: 20px;
+}
+
+.event-list-item {
+  background-color: #fff;
+  margin-top: 5px;
+  padding: 10px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
