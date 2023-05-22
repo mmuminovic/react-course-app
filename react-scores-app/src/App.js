@@ -2,62 +2,60 @@ import React from "react";
 import "./App.css";
 import ScoreCard from "./components/ScoreCard";
 
-// const [state,setState] = useState({
-//   homeScore: 0,
-//   guestScore: 0,
-// })
-
 class App extends React.Component {
   state = {
-    homeScore: 0,
-    guestScore: 0,
+    scores: [],
     gameover: false,
+    player: "",
   };
 
-  componentDidMount() {
-    console.log("DID MOUNT");
-    // this.setState({ homeScore: 0, guestScore: 0 });
+  goalScored(team, event) {
+    const eventData = {
+      player: this.state.player,
+      team: team,
+      event: event,
+    };
+    const newScores = this.state.scores;
+    newScores.push(eventData);
+    this.setState({ scores: newScores, player: "" });
   }
 
-  componentDidUpdate() {
-    console.log("DID UPDATE");
-    if (this.state.gameover === false) {
-      // igra traje
-      if (this.state.homeScore === 5) {
-        console.log("Home is winner");
-        this.setState({ gameover: true }); // prekini igru
-      }
-      if (this.state.guestScore === 5) {
-        console.log("Guest is winner");
-        this.setState({ gameover: true });
-      }
-    }
+  getGoalNumber(team) {
+    const teamScores = this.state.scores.filter((item, index) => {
+      return item.team === team && item.event === "goal";
+    });
+    return teamScores.length;
   }
 
   render() {
+    const homeScores = this.getGoalNumber("home");
+    const guestScores = this.getGoalNumber("guest");
     return (
       <div className="app">
         <div className="scores-container">
           <ScoreCard
             name="Home"
-            score={this.state.homeScore}
+            score={homeScores}
             goal={() => {
-              if (this.state.gameover === false) {
-                this.setState({ homeScore: this.state.homeScore + 1 });
-              }
+              this.goalScored("home", "goal");
             }}
           />
           <ScoreCard
             name="Guest"
-            score={this.state.guestScore}
+            score={guestScores}
             goal={() => {
-              if (this.state.gameover === false) {
-                // igra traje
-                this.setState({ guestScore: this.state.guestScore + 1 });
-              }
+              this.goalScored("guest", "goal");
             }}
           />
         </div>
+        <input
+          value={this.state.player}
+          onChange={(event) => {
+            const value = event.target.value;
+            this.setState({ player: value });
+          }}
+          placeholder="Unesite ime fudbalera"
+        />
       </div>
     );
   }
