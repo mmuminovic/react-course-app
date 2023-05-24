@@ -32,8 +32,6 @@ class App extends React.Component {
     const homeScores = this.getGoalNumber("home");
     const guestScores = this.getGoalNumber("guest");
 
-    console.log(this.state.scores);
-
     return (
       <div className="app">
         <div className="scores-container">

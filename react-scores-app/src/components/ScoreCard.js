@@ -33,4 +33,34 @@ class ScoreCard extends React.Component {
   }
 }
 
-export default ScoreCard;
+const NewScoreCard = (props) => {
+  return (
+    <div className="score-card">
+      <h1>{props.score}</h1>
+      <p>{props.name}</p>
+      <button
+        onClick={(e) => {
+          props.goal();
+        }}
+      >
+        Goal!
+      </button>
+      <button
+        onClick={(e) => {
+          props.yellowCard();
+        }}
+      >
+        Yellow Card
+      </button>
+      <button
+        onClick={(e) => {
+          props.redCard();
+        }}
+      >
+        Red Card
+      </button>
+    </div>
+  );
+};
+
+export default NewScoreCard;
