@@ -1,11 +1,13 @@
 import React from "react";
+import LikedIcon from "../assets/liked.png";
+import UnlikedIcon from "../assets/unliked.png";
 
 const Post = (props) => {
   // props = { post: {...} }
   const isPostLikedByMe = props.post.likes.includes(props.myUsername);
-  let likeButtonText = "Like";
+  let likeButtonImg = UnlikedIcon;
   if (isPostLikedByMe) {
-    likeButtonText = "Liked";
+    likeButtonImg = LikedIcon;
   }
 
   return (
@@ -18,8 +20,9 @@ const Post = (props) => {
           onClick={() => {
             props.likeHandler(props.post.id);
           }}
+          style={{ paddingRight: "10px", paddingLeft: "10px" }}
         >
-          {likeButtonText}
+          <img src={likeButtonImg} width="10px" />
         </button>
         <button
           onClick={() => {
