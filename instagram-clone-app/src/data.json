@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1",
+    "username": "mmuminovic",
+    "imageUrl": "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/natures-divine-canvas-maroon-bells-aspen-colorado-1x1-square-gregory-ballos.jpg",
+    "likes": ["kenanb", "halils"],
+    "description": "Nature in my village",
+    "comments": [
+      {
+        "username": "kenanb",
+        "comment": "Nice!"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "username": "kenanb",
+    "imageUrl": "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/kings-river-falls-landscape-1x1-ozark-national-forest-gregory-ballos.jpg",
+    "likes": ["halils"],
+    "description": "Trenutna",
+    "comments": [
+      {
+        "username": "halils",
+        "comment": "Better than one by Muhamed"
+      }
+    ]
+  }
+]
