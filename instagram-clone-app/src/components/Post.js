@@ -1,8 +1,10 @@
 import React from "react";
 import LikedIcon from "../assets/liked.png";
 import UnlikedIcon from "../assets/unliked.png";
+import { useNavigate } from "react-router-dom";
 
 const Post = (props) => {
+  const navigate = useNavigate();
   // props = { post: {...} }
   const isPostLikedByMe = props.post.likes.includes(props.myUsername);
   let likeButtonImg = UnlikedIcon;
@@ -12,7 +14,11 @@ const Post = (props) => {
 
   return (
     <div className="post">
-      <div>
+      <div
+        onClick={() => {
+          navigate("/details", { state: props.post });
+        }}
+      >
         <img className="post-img" src={props.post.imageUrl} />
       </div>
       <div className="post-buttons">
