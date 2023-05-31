@@ -1,10 +1,9 @@
 import React from "react";
 import {
-  Link,
-  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
+  useLocation,
 } from "react-router-dom";
 
 function BlogDetails() {
@@ -13,20 +12,20 @@ function BlogDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
-  const navState = location.state;
+  console.log(location.state);
 
   const goToAllBlogs = () => {
-    navigate("/");
+    navigate("/", { state: { test: "Hello world" } });
   };
 
   console.log("id =", params.id);
-  console.log("title =", searchParams.get("title"));
+  console.log("title =", searchParams.get("postId"));
   //   console.log("userId =", params.userId);
 
   return (
     <div>
-      <h1>{navState.title}</h1>
-      <h3>{navState.subtitle}</h3>
+      {/* <h1>{navState.title}</h1>
+      <h3>{navState.subtitle}</h3> */}
       <p>
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever

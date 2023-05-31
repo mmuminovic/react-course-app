@@ -1,30 +1,18 @@
 import "./App.css";
 import Blogs from "./pages/Blogs";
 import BlogDetails from "./pages/BlogDetails";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Blogs />,
-  },
-  {
-    // path: "/details/:id/:userId",
-    path: "/details/:id",
-    element: <BlogDetails />,
-  },
-  {
-    path: "/details/edit",
-    element: <div>Edit</div>,
-  },
-  {
-    path: "/helloworld",
-    element: <div>Hello world</div>,
-  },
-]);
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Blogs />} />
+        <Route path="/details/:id" element={<BlogDetails />} />
+        <Route path="/helloworld" element={<div>Hello world</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
