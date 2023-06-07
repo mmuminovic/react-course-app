@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AllQuotes.css";
+import QuoteCard from "../../components/QuoteCard/QuoteCard";
 
 function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
@@ -17,7 +18,13 @@ function AllQuotes() {
 
   console.log(quotes);
 
-  return <div className="all-quotes">AllQuotes</div>;
+  return (
+    <div className="all-quotes">
+      {quotes.map((quote, index) => {
+        return <QuoteCard key={index} quote={quote} />;
+      })}
+    </div>
+  );
 }
 
 export default AllQuotes;
