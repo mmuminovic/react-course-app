@@ -5,48 +5,62 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const loginSchema = yup.object({
-  email: yup.string().required("Nedostaje email").email("Email nije dobar"),
-  // .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i),
-  password: yup.string().required().min(6).max(50),
+  email: yup
+    .string()
+    .required("Email je obavezno polje, unesite email")
+    // .matches(
+    //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!.,#]).+$/i,
+    //   "Email moze da sadrzi samo slova, brojeve i tacku"
+    // )
+    .email("Email format nije dobar"),
+  password: yup
+    .string()
+    .required("Sifra je obavezno polje, unesite sifru")
+    .min(6, "Sifra mora da ima najmanje 6 karaktera")
+    .max(50, "Sifra mora da ima najvise 50 karaktera"),
+  // .matches(
+  //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!.,#]).+$/i,
+  //   "Nije dobra sifra"
+  // ),
 });
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const submitForm = (values) => {
+    fetch("https://js-course-server.onrender.com/user/login", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          alert(data.message);
+        }
+
+        if (data.token) {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="login-wrapper">
       <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values, actions) => {
-          fetch("https://js-course-server.onrender.com/user/login", {
-            method: "POST",
-            body: JSON.stringify(values),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.token) {
-                navigate("/");
-              }
-            });
-        }}
         validationSchema={loginSchema}
-        // validate={(values) => {
-        //   const errors = {};
-        //   if (
-        //     !values.error ||
-        //     values.error.length < 10 ||
-        //     values.error.length > 100
-        //   ) {
-        //     errors.email = "Neispravan email";
-        //   }
-        //   return errors;
-        // }}
+        onSubmit={(values, actions) => {
+          submitForm(values);
+        }}
       >
         {({
-          values, // formikov state
+          values, // formikov state => { email: "", password: "" }
           errors, // errors = { email: 'Neispravan email' }
           touched, // touched = { email: true }
           handleChange,
