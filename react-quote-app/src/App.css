@@ -7,6 +7,11 @@
   text-align: center;
 }
 
+.error-message {
+  font-size: 10px;
+  color: red;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -8,11 +8,11 @@ const loginSchema = yup.object({
   email: yup
     .string()
     .required("Email je obavezno polje, unesite email")
-    // .matches(
-    //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!.,#]).+$/i,
-    //   "Email moze da sadrzi samo slova, brojeve i tacku"
-    // )
     .email("Email format nije dobar"),
+  // .matches(
+  //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!.,#]).+$/i,
+  //   "Email moze da sadrzi samo slova, brojeve i tacku"
+  // )
   password: yup
     .string()
     .required("Sifra je obavezno polje, unesite sifru")
@@ -42,6 +42,7 @@ const Login = () => {
         }
 
         if (data.token) {
+          localStorage.setItem("authToken", data.token);
           navigate("/");
         }
       })
@@ -61,7 +62,7 @@ const Login = () => {
       >
         {({
           values, // formikov state => { email: "", password: "" }
-          errors, // errors = { email: 'Neispravan email' }
+          errors, // errors = { email: 'Neispravan email', password: 'Password is required field' }
           touched, // touched = { email: true }
           handleChange,
           handleBlur,
