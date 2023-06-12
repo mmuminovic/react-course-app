@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AddQuote.css";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -26,6 +26,15 @@ const newQuoteSchema = yup.object({
 const AddQuote = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("https://js-course-server.onrender.com/category/get-all")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data);
+      });
+  }, []);
 
   const submitForm = (values) => {
     fetch("https://js-course-server.onrender.com/quotes/add-quote", {
@@ -42,6 +51,7 @@ const AddQuote = () => {
           alert(data.message);
         } else {
           alert("Uspesno");
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -60,7 +70,7 @@ const AddQuote = () => {
           quoteText: "",
           quoteAuthor: "",
           quoteSource: "",
-          category: "63e112150811382da36bf8ec",
+          category: "",
         }}
         validationSchema={newQuoteSchema}
         onSubmit={(values, actions) => {
@@ -121,18 +131,33 @@ const AddQuote = () => {
             </div>
             <div>
               <p>Category</p>
-              <input
-                type="text"
+              <select
                 name="category"
                 onChange={handleChange}
-                onBlur={handleBlur}
                 value={values.category}
-              />
+              >
+                <option value={""} disabled={true}>
+                  -- Izaberi kategoriju --
+                </option>
+                {categories.map((item, index) => (
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
               <p className="error-message">
                 {errors.category && touched.category && errors.category}
               </p>
             </div>
 
+            {/* <button
+              onClick={() => {
+                console.log(values, "values");
+              }}
+              type="button"
+            >
+              Show values
+            </button> */}
             <button onClick={handleSubmit} type="button">
               Submit
             </button>
