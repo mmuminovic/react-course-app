@@ -51,7 +51,6 @@ const AddQuote = () => {
           alert(data.message);
         } else {
           alert("Uspesno");
-          navigate("/");
         }
       })
       .catch((err) => {
@@ -75,6 +74,7 @@ const AddQuote = () => {
         validationSchema={newQuoteSchema}
         onSubmit={(values, actions) => {
           submitForm(values);
+          // actions.resetForm();
         }}
       >
         {({

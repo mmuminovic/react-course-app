@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./QuoteDetails.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function QuoteDetails() {
   const params = useParams();
   const [quote, setQuote] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://js-course-server.onrender.com/quotes/get-quote/" + params.id)
@@ -44,7 +45,9 @@ function QuoteDetails() {
         <p>{quote.quoteSource}</p>
         <p className="likes">Likes: {quote.likes}</p>
         <button onClick={likeHandler}>Like</button>
-        <button>Edit</button>
+        <button onClick={() => navigate(`/quote/${params.id}/edit`)}>
+          Edit
+        </button>
       </div>
     </div>
   );
