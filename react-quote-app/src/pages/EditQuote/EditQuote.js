@@ -54,6 +54,7 @@ const EditQuote = () => {
   }, []);
 
   const submitForm = (values) => {
+    setIsLoading(true);
     fetch("https://js-course-server.onrender.com/quotes/edit/" + params.id, {
       method: "PATCH",
       body: JSON.stringify(values),
@@ -68,7 +69,8 @@ const EditQuote = () => {
           alert(data.message);
         } else {
           alert("Uspesno");
-          navigate("/");
+          setIsLoading(false);
+          // navigate("/");
         }
       })
       .catch((err) => {

@@ -1,13 +1,15 @@
 import "./App.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import AllQuotes from "./pages/AllQuotes/AllQuotes";
 import QuoteDetails from "./pages/QuoteDetails/QuoteDetails";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import AddQuote from "./pages/AddQuote/AddQuote";
 import EditQuote from "./pages/EditQuote/EditQuote";
+import { store } from "./store/store";
 
-function App() {
+const NavigationRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -20,6 +22,14 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <NavigationRoutes />
+    </Provider>
+  );
+};
 
 export default App;

@@ -28,6 +28,10 @@ const AddQuote = () => {
   const token = localStorage.getItem("authToken");
   const [categories, setCategories] = useState([]);
 
+  const clearAllCategories = () => {
+    setCategories([]);
+  };
+
   useEffect(() => {
     fetch("https://js-course-server.onrender.com/category/get-all")
       .then((res) => res.json())
