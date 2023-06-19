@@ -3,4 +3,5 @@ import { authSlice } from "./authSlice";
 
 export const rootReducer = combineReducers({
   auth: authSlice.reducer,
+  // test: testSlice.reducer,
 });
