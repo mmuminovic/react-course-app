@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
   const authState = useSelector((state) => state.auth);
+  const quoteState = useSelector((state) => state.quote);
   const dispach = useDispatch();
   const navigate = useNavigate();
 
@@ -24,6 +25,10 @@ function AllQuotes() {
 
   return (
     <div className="all-quotes">
+      <div className="header">
+        <p>Favorite quotes: {quoteState.favorites.length}</p>
+        <button>Go to favorites</button>
+      </div>
       {authState.id ? (
         <button
           onClick={() => {
