@@ -29,7 +29,7 @@ const loginSchema = yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
 
   const submitForm = (values) => {
     fetch("https://js-course-server.onrender.com/user/login", {
@@ -47,7 +47,7 @@ const Login = () => {
 
         if (data.token) {
           const decoded = jwtDecode(data.token);
-          dispach(authSlice.actions.setData(decoded));
+          dispatch(authSlice.actions.setData(decoded));
           localStorage.setItem("authToken", data.token);
           navigate("/");
         }

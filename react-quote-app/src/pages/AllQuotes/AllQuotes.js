@@ -9,7 +9,7 @@ function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
   const authState = useSelector((state) => state.auth);
   const quoteState = useSelector((state) => state.quote);
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   console.log("all reports", quoteState.reports);
@@ -34,7 +34,7 @@ function AllQuotes() {
       {authState.id ? (
         <button
           onClick={() => {
-            dispach(authSlice.actions.logout());
+            dispatch(authSlice.actions.logout());
           }}
         >
           Logout
