@@ -12,6 +12,8 @@ function AllQuotes() {
   const dispach = useDispatch();
   const navigate = useNavigate();
 
+  console.log("all reports", quoteState.reports);
+
   useEffect(() => {
     fetch("https://js-course-server.onrender.com/quotes/get-all-quotes")
       .then((res) => res.json())

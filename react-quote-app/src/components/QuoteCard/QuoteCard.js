@@ -7,7 +7,7 @@ import { quoteSlice } from "../../store/quoteSlice";
 const QuoteCard = (props) => {
   const quote = props.quote;
   const navigate = useNavigate();
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
 
   const goToDetails = () => {
@@ -15,7 +15,7 @@ const QuoteCard = (props) => {
   };
 
   const addToFavorites = () => {
-    dispach(quoteSlice.actions.setFavorite(quote));
+    dispatch(quoteSlice.actions.setFavorite(quote));
   };
 
   const reportQuote = () => {
@@ -28,7 +28,7 @@ const QuoteCard = (props) => {
         id: authState.id,
       },
     };
-    console.log(reportObject);
+    dispatch(quoteSlice.actions.setReport(reportObject));
   };
 
   return (

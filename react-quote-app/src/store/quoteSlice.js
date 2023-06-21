@@ -17,6 +17,11 @@ export const quoteSlice = createSlice({
       }
       return state;
     },
+    setReport(state, action) {
+      const reportData = action.payload;
+      state.reports.push(reportData);
+      return state;
+    },
     clearFavorites(state, action) {
       return initialState;
     },
