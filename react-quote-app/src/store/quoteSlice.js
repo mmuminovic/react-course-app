@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   favorites: [],
+  reports: [], // [ {quote: {...}, reportMessage: 'This is not good quote'} ]
 };
 
 export const quoteSlice = createSlice({
