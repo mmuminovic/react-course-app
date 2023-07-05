@@ -5,10 +5,11 @@
 
 .App {
   text-align: center;
+  font-size: 16px;
 }
 
 .error-message {
-  font-size: 10px;
+  font-size: 16px;
   color: red;
 }
 
