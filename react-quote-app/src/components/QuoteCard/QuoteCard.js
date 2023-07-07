@@ -11,6 +11,7 @@ import {
   Button,
   Typography,
   IconButton,
+  Grid,
 } from "@mui/material";
 import { Favorite as FavoriteIcon } from "@mui/icons-material";
 
@@ -51,25 +52,27 @@ const QuoteCard = (props) => {
   };
 
   return (
-    <Card variant="outlined" sx={{ my: 1 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {quote.quoteAuthor}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {quote.quoteText}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {quote.quoteSource}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon color="error" />
-        </IconButton>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <Grid item xs={12} md={6}>
+      <Card variant="outlined" sx={{ my: 1 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {quote.quoteAuthor}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {quote.quoteText}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {quote.quoteSource}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon color="error" />
+          </IconButton>
+          <Button size="small">Learn More</Button>
+        </CardActions>
+      </Card>
+    </Grid>
   );
 };
 

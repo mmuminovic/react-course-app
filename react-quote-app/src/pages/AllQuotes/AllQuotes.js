@@ -5,6 +5,7 @@ import QuoteCard from "../../components/QuoteCard/QuoteCard";
 import { authSlice } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../containers/Layout/Layout";
+import { Grid } from "@mui/material";
 
 function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
@@ -26,9 +27,11 @@ function AllQuotes() {
 
   return (
     <Layout>
-      {quotes.map((quote, index) => {
-        return <QuoteCard key={index} quote={quote} />;
-      })}
+      <Grid container spacing={2}>
+        {quotes.map((quote, index) => {
+          return <QuoteCard key={index} quote={quote} />;
+        })}
+      </Grid>
     </Layout>
   );
 }

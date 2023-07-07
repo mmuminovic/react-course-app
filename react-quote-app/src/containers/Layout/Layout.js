@@ -22,7 +22,9 @@ function Layout(props) {
           <LockClock color="primary" />
         </Box>
         <Box display="flex" gap={2} flexDirection={"row"}>
-          <Button color="primary">Login</Button>
+          <Button color="primary" variant="outlined">
+            Login
+          </Button>
           <Box display="flex" alignItems="center">
             <LightMode color="primary" />
             <Switch
