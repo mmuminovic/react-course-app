@@ -4,6 +4,7 @@ import "./AllQuotes.css";
 import QuoteCard from "../../components/QuoteCard/QuoteCard";
 import { authSlice } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import Layout from "../../containers/Layout/Layout";
 
 function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
@@ -12,13 +13,11 @@ function AllQuotes() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("all reports", quoteState.reports);
-
   useEffect(() => {
     fetch("https://js-course-server.onrender.com/quotes/get-all-quotes")
       .then((res) => res.json())
       .then((data) => {
-        setQuotes(data);
+        setQuotes([...data, ...data, ...data]);
       })
       .catch((error) => {
         console.log(error);
@@ -26,32 +25,11 @@ function AllQuotes() {
   }, []);
 
   return (
-    <div className="all-quotes">
-      <div className="header">
-        <p>Favorite quotes: {quoteState.favorites.length}</p>
-        <button>Go to favorites</button>
-      </div>
-      {authState.id ? (
-        <button
-          onClick={() => {
-            dispatch(authSlice.actions.logout());
-          }}
-        >
-          Logout
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          Login
-        </button>
-      )}
+    <Layout>
       {quotes.map((quote, index) => {
         return <QuoteCard key={index} quote={quote} />;
       })}
-    </div>
+    </Layout>
   );
 }
 

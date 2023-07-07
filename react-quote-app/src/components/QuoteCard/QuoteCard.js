@@ -3,6 +3,25 @@ import "./QuoteCard.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { quoteSlice } from "../../store/quoteSlice";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { Favorite as FavoriteIcon } from "@mui/icons-material";
+
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+  >
+    •
+  </Box>
+);
 
 const QuoteCard = (props) => {
   const quote = props.quote;
@@ -32,17 +51,25 @@ const QuoteCard = (props) => {
   };
 
   return (
-    <div className="quote-card">
-      <p>
-        <i>{quote.quoteText}</i>
-      </p>
-      <p>
-        <b>{quote.quoteAuthor}</b>
-      </p>
-      <button onClick={goToDetails}>Go to details</button>
-      <button onClick={addToFavorites}>Add to faviorites</button>
-      <button onClick={reportQuote}>Report quote</button>
-    </div>
+    <Card variant="outlined" sx={{ my: 1 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          {quote.quoteAuthor}
+        </Typography>
+        <Typography variant="h5" component="div">
+          {quote.quoteText}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {quote.quoteSource}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon color="error" />
+        </IconButton>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
   );
 };
 
