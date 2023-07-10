@@ -6,6 +6,7 @@ import { authSlice } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../containers/Layout/Layout";
 import { Grid } from "@mui/material";
+import { getQuotes } from "../../firebase";
 
 function AllQuotes() {
   const [quotes, setQuotes] = useState([]);
@@ -15,10 +16,10 @@ function AllQuotes() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://js-course-server.onrender.com/quotes/get-all-quotes")
-      .then((res) => res.json())
+    getQuotes()
       .then((data) => {
-        setQuotes([...data, ...data, ...data]);
+        console.log(data);
+        setQuotes(data);
       })
       .catch((error) => {
         console.log(error);

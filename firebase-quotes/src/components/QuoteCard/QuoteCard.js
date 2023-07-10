@@ -56,13 +56,13 @@ const QuoteCard = (props) => {
       <Card variant="outlined" sx={{ my: 1 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {quote.quoteAuthor}
+            {quote.author}
           </Typography>
           <Typography variant="h5" component="div">
-            {quote.quoteText}
+            {quote.text}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {quote.quoteSource}
+            {quote.source}
           </Typography>
         </CardContent>
         <CardActions>
