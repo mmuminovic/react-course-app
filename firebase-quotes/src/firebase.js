@@ -7,8 +7,9 @@ import { addDoc, doc, setDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBjjfXVsP75BHQmCjkw8-ZovZhoN_UsN-k",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "react-it-camp.firebaseapp.com",
   projectId: "react-it-camp",
   storageBucket: "react-it-camp.appspot.com",
