@@ -1,0 +1,25 @@
+.quote-details {
+  background-color: rgb(161, 196, 247);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quote-details-card {
+  border: 1px solid rgb(91, 255, 192);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.quote-details-card p {
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+.likes {
+  font-size: 12px;
+  color: rgb(3, 85, 166);
+  font-weight: bold;
+}
