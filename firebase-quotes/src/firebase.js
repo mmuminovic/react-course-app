@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { addDoc, doc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,11 +19,16 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-export const firebaseDB = getFirestore(firebaseApp);
+export const db = getFirestore(firebaseApp);
 
 export const getQuotes = async () => {
-  const quotesCollection = collection(firebaseDB, "quotes");
+  const quotesCollection = collection(db, "quotes");
   const quoteResults = await getDocs(quotesCollection);
   const quoteList = quoteResults.docs.map((doc) => doc.data());
   return quoteList;
+};
+
+export const addQuote = async (data) => {
+  const result = await addDoc(collection(db, "quotes"), data);
+  return result;
 };

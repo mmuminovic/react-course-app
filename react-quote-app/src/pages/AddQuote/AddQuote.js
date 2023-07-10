@@ -3,6 +3,7 @@ import "./AddQuote.css";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Navigate, useNavigate } from "react-router-dom";
+import { addQuote } from "../../../../firebase-quotes/src/firebase";
 
 const newQuoteSchema = yup.object({
   quoteText: yup
@@ -26,30 +27,9 @@ const newQuoteSchema = yup.object({
 const AddQuote = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
-  const [categories, setCategories] = useState([]);
-
-  const clearAllCategories = () => {
-    setCategories([]);
-  };
-
-  useEffect(() => {
-    fetch("https://js-course-server.onrender.com/category/get-all")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-      });
-  }, []);
 
   const submitForm = (values) => {
-    fetch("https://js-course-server.onrender.com/quotes/add-quote", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
+    addQuote(values)
       .then((data) => {
         if (data.message) {
           alert(data.message);
@@ -131,26 +111,6 @@ const AddQuote = () => {
                 {errors.quoteSource &&
                   touched.quoteSource &&
                   errors.quoteSource}
-              </p>
-            </div>
-            <div>
-              <p>Category</p>
-              <select
-                name="category"
-                onChange={handleChange}
-                value={values.category}
-              >
-                <option value={""} disabled={true}>
-                  -- Izaberi kategoriju --
-                </option>
-                {categories.map((item, index) => (
-                  <option key={index} value={item._id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-              <p className="error-message">
-                {errors.category && touched.category && errors.category}
               </p>
             </div>
 
