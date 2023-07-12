@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import AllQuotes from "./pages/AllQuotes/AllQuotes";
@@ -15,7 +15,7 @@ import { ThemeProvider } from "@mui/material";
 import { themeDark } from "./styles/themeDark";
 import { themeLight } from "./styles/themeLight";
 
-const NavigationRoutes = () => {
+const App = () => {
   const dispatch = useDispatch();
   const themeState = useSelector((state) => state.theme);
   const selectedTheme = themeState.theme === "light" ? themeLight : themeDark;
@@ -41,14 +41,6 @@ const NavigationRoutes = () => {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  );
-};
-
-const App = () => {
-  return (
-    <Provider store={store}>
-      <NavigationRoutes />
-    </Provider>
   );
 };
 

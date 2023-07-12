@@ -8,7 +8,7 @@ import Layout from "../../containers/Layout/Layout";
 import { Grid } from "@mui/material";
 import { getQuotes } from "../../firebase";
 
-function AllQuotes() {
+const AllQuotes = () => {
   const [quotes, setQuotes] = useState([]);
   const authState = useSelector((state) => state.auth);
   const quoteState = useSelector((state) => state.quote);
@@ -34,6 +34,6 @@ function AllQuotes() {
       </Grid>
     </Layout>
   );
-}
+};
 
 export default AllQuotes;

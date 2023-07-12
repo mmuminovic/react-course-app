@@ -69,7 +69,9 @@ const QuoteCard = (props) => {
           <IconButton aria-label="add to favorites">
             <FavoriteIcon color="error" />
           </IconButton>
-          <Button size="small" onClick={() => goToDetails()}>Learn More</Button>
+          <Button size="small" onClick={() => goToDetails()}>
+            Learn More
+          </Button>
         </CardActions>
       </Card>
     </Grid>
