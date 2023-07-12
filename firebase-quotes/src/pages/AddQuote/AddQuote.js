@@ -28,14 +28,9 @@ const AddQuote = () => {
   const token = localStorage.getItem("authToken");
 
   const submitForm = (values) => {
-    console.log(values, "values");
-    addQuote(JSON.stringify(values))
-      .then((data) => {
-        if (data.message) {
-          alert(data.message);
-        } else {
-          alert("Uspesno");
-        }
+    addQuote(values)
+      .then(() => {
+        alert("Uspesno");
       })
       .catch((err) => {
         console.log(err);
