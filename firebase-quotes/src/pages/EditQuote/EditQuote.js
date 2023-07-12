@@ -3,24 +3,24 @@ import "./EditQuote.css";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { getQuoteById, updateQuoteData } from "../../firebase";
 
 const editQuoteSchema = yup.object({
-  quoteText: yup
+  text: yup
     .string()
-    .required("quoteText je obavezno polje")
-    .min(6, "quoteText mora da ima najmanje 6 karaktera")
-    .max(100, "quoteText mora da ima najvise 50 karaktera"),
-  quoteAuthor: yup
+    .required("text je obavezno polje")
+    .min(6, "text mora da ima najmanje 6 karaktera")
+    .max(100, "text mora da ima najvise 50 karaktera"),
+  author: yup
     .string()
-    .required("quoteAuthor je obavezno polje")
-    .min(4, "quoteAuthor mora da ima najmanje 6 karaktera")
-    .max(50, "quoteAuthor mora da ima najvise 50 karaktera"),
-  quoteSource: yup
+    .required("author je obavezno polje")
+    .min(4, "author mora da ima najmanje 6 karaktera")
+    .max(50, "author mora da ima najvise 50 karaktera"),
+  source: yup
     .string()
-    .required("quoteSource je obavezno polje")
-    .min(4, "quoteSource mora da ima najmanje 6 karaktera")
-    .max(200, "quoteSource mora da ima najvise 50 karaktera"),
-  category: yup.string().required("Category je obavezno polje"),
+    .required("source je obavezno polje")
+    .min(4, "source mora da ima najmanje 6 karaktera")
+    .max(200, "source mora da ima najvise 50 karaktera"),
 });
 
 const EditQuote = () => {
@@ -29,53 +29,38 @@ const EditQuote = () => {
   const [categories, setCategories] = useState([]);
   const params = useParams();
   const [quote, setQuote] = useState({
-    quoteText: "",
-    quoteAuthor: "",
-    quoteSource: "",
-    category: "",
+    text: "",
+    author: "",
+    source: "",
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("https://js-course-server.onrender.com/category/get-all")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch("https://js-course-server.onrender.com/quotes/get-quote/" + params.id)
-      .then((res) => res.json())
-      .then((data) => {
-        setQuote(data);
-        setIsLoading(false);
-      });
-  }, []);
-
-  const submitForm = (values) => {
+  const getQuoteData = () => {
     setIsLoading(true);
-    fetch("https://js-course-server.onrender.com/quotes/edit/" + params.id, {
-      method: "PATCH",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
+    getQuoteById(params.id)
       .then((data) => {
-        if (data.message) {
-          alert(data.message);
-        } else {
-          alert("Uspesno");
-          setIsLoading(false);
-          // navigate("/");
-        }
+        setIsLoading(false);
+        delete data.id;
+        setQuote(data);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getQuoteData();
+  }, []);
+
+  const submitForm = async (values) => {
+    setIsLoading(true);
+    try {
+      await updateQuoteData(params.id, values);
+      getQuoteData();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!token) {
@@ -115,74 +100,41 @@ const EditQuote = () => {
                 <p>Text</p>
                 <input
                   type="text"
-                  name="quoteText"
+                  name="text"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.quoteText}
+                  value={values.text}
                 />
                 <p className="error-message">
-                  {errors.quoteText && touched.quoteText && errors.quoteText}
+                  {errors.text && touched.text && errors.text}
                 </p>
               </div>
               <div>
                 <p>Author</p>
                 <input
                   type="text"
-                  name="quoteAuthor"
+                  name="author"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.quoteAuthor}
+                  value={values.author}
                 />
                 <p className="error-message">
-                  {errors.quoteAuthor &&
-                    touched.quoteAuthor &&
-                    errors.quoteAuthor}
+                  {errors.author && touched.author && errors.author}
                 </p>
               </div>
               <div>
                 <p>Source</p>
                 <input
                   type="text"
-                  name="quoteSource"
+                  name="source"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.quoteSource}
+                  value={values.source}
                 />
                 <p className="error-message">
-                  {errors.quoteSource &&
-                    touched.quoteSource &&
-                    errors.quoteSource}
+                  {errors.source && touched.source && errors.source}
                 </p>
               </div>
-              <div>
-                <p>Category</p>
-                <select
-                  name="category"
-                  onChange={handleChange}
-                  value={values.category}
-                >
-                  <option value={""} disabled={true}>
-                    -- Izaberi kategoriju --
-                  </option>
-                  {categories.map((item, index) => (
-                    <option key={index} value={item._id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-                <p className="error-message">
-                  {errors.category && touched.category && errors.category}
-                </p>
-              </div>
-
-              {/* <button
-              onClick={() => {
-                console.log(values, "values");
-              }}
-              type="button"
-            >
-              Show values
-            </button> */}
               <button onClick={handleSubmit} type="button">
                 Submit
               </button>

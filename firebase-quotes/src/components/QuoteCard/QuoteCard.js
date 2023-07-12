@@ -31,7 +31,7 @@ const QuoteCard = (props) => {
   const authState = useSelector((state) => state.auth);
 
   const goToDetails = () => {
-    navigate("/quote/" + quote._id);
+    navigate("/quote/" + quote.id);
   };
 
   const addToFavorites = () => {
@@ -69,7 +69,7 @@ const QuoteCard = (props) => {
           <IconButton aria-label="add to favorites">
             <FavoriteIcon color="error" />
           </IconButton>
-          <Button size="small">Learn More</Button>
+          <Button size="small" onClick={() => goToDetails()}>Learn More</Button>
         </CardActions>
       </Card>
     </Grid>

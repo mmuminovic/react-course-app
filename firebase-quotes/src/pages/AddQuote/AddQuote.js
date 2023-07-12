@@ -27,14 +27,13 @@ const AddQuote = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
-  const submitForm = (values) => {
-    addQuote(values)
-      .then(() => {
-        alert("Uspesno");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const submitForm = async (values) => {
+    try {
+      await addQuote(values);
+      alert("Uspesno");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (!token) {

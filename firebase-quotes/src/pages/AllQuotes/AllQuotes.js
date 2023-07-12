@@ -18,7 +18,6 @@ function AllQuotes() {
   useEffect(() => {
     getQuotes()
       .then((data) => {
-        console.log(data);
         setQuotes(data);
       })
       .catch((error) => {
