@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { addToDoItem, deleteAllToDoItems, getToDoList } from "./firebase";
+import {
+  addToDoItem,
+  deleteAllToDoItems,
+  getToDoList,
+  updateToDoItemData,
+} from "./firebase";
+import { Button, Box, Typography } from "@mui/material";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const App = (props) => {
   const [taskName, setTaskName] = useState("");
@@ -36,6 +43,12 @@ const App = (props) => {
     });
   };
 
+  const setItemIsDone = (item) => {
+    updateToDoItemData(item.id, { done: !item.done }).then(() => {
+      getAllItems();
+    });
+  };
+
   return (
     <div className="container">
       <div className="todo__box">
@@ -57,15 +70,25 @@ const App = (props) => {
               }
             }}
           />
-          <button id="btnn1" className="btnn1" onClick={() => addNewTask()}>
-            {/* <img src={PlusImg} className="img" alt="" /> */}+
-          </button>
+          <Button variant="contained" onClick={() => addNewTask()}>
+            <PlaylistAddIcon />
+          </Button>
         </div>
         <div id="list" className="d-grid gap-2 col-6 button">
           {toDoList.map((item, index) => {
             return (
-              <button key={index} className="list-items">
-                {item.title}
+              <button
+                key={index}
+                className="list-items"
+                onClick={() => setItemIsDone(item)}
+              >
+                <p
+                  style={{
+                    textDecoration: item.done ? "line-through" : "none",
+                  }}
+                >
+                  {item.title}
+                </p>
               </button>
             );
           })}
@@ -75,9 +98,9 @@ const App = (props) => {
             You have <span id="numberOfItems">{toDoList.length}</span> pending
             tasks
           </p>
-          <button id="btnn2" className="btnn2" onClick={clearAllItems}>
+          <Button variant="contained" color="error" onClick={clearAllItems}>
             Clear All
-          </button>
+          </Button>
         </div>
       </div>
     </div>
