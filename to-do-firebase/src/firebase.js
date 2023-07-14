@@ -27,13 +27,13 @@ export const db = getFirestore(firebaseApp);
 
 export const getToDoList = async () => {
   const todolistCollection = collection(db, "todo-list");
-  const quoteResults = await getDocs(todolistCollection);
-  const quoteList = quoteResults.docs.map((doc) => {
+  const todolistResults = await getDocs(todolistCollection);
+  const todolistList = todolistResults.docs.map((doc) => {
     const data = doc.data();
     const id = doc.id;
     return { ...data, id: id };
   });
-  return quoteList;
+  return todolistList;
 };
 
 export const getToDoItemById = async (id) => {
@@ -56,4 +56,19 @@ export const deleteToDoItem = async (id) => {
 export const addToDoItem = async (data) => {
   const result = await addDoc(collection(db, "todo-list"), data);
   return result;
+};
+
+export const deleteAllToDoItems = async () => {
+  const collectionRef = collection(db, "todo-list");
+  const querySnapshot = await getDocs(collectionRef);
+
+  querySnapshot.forEach((doc) => {
+    deleteDoc(doc.ref)
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error deleting document: ", error);
+      });
+  });
 };

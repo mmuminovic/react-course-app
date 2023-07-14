@@ -1,15 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+import { addToDoItem, deleteAllToDoItems, getToDoList } from "./firebase";
 
 const App = (props) => {
   const [taskName, setTaskName] = useState("");
   const [toDoList, setToDoList] = useState([]);
 
+  const getAllItems = () => {
+    getToDoList().then((data) => {
+      setToDoList(data);
+    });
+  };
+
+  useEffect(() => {
+    getAllItems();
+  }, []);
+
   const addNewTask = () => {
-    const newToDoList = [...toDoList];
-    newToDoList.push(taskName);
-    setToDoList(newToDoList);
-    setTaskName("");
+    const itemData = {
+      title: taskName,
+      description: "",
+      date: new Date(),
+      done: false,
+    };
+
+    addToDoItem(itemData).then(() => {
+      getAllItems();
+      setTaskName("");
+    });
+  };
+
+  const clearAllItems = () => {
+    deleteAllToDoItems().then(() => {
+      getAllItems();
+    });
   };
 
   return (
@@ -41,7 +65,7 @@ const App = (props) => {
           {toDoList.map((item, index) => {
             return (
               <button key={index} className="list-items">
-                {item}
+                {item.title}
               </button>
             );
           })}
@@ -51,13 +75,7 @@ const App = (props) => {
             You have <span id="numberOfItems">{toDoList.length}</span> pending
             tasks
           </p>
-          <button
-            id="btnn2"
-            className="btnn2"
-            onClick={() => {
-              setToDoList([]);
-            }}
-          >
+          <button id="btnn2" className="btnn2" onClick={clearAllItems}>
             Clear All
           </button>
         </div>
