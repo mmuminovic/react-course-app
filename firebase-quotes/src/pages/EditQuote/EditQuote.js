@@ -25,7 +25,6 @@ const editQuoteSchema = yup.object({
 
 const EditQuote = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
   const [categories, setCategories] = useState([]);
   const params = useParams();
   const [quote, setQuote] = useState({
@@ -62,10 +61,6 @@ const EditQuote = () => {
       setIsLoading(false);
     }
   };
-
-  if (!token) {
-    return <Navigate to={"/login"} replace={true} />;
-  }
 
   if (isLoading) {
     return (

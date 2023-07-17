@@ -135,3 +135,34 @@ export const addQuote = async (data) => {
   const result = await addDoc(collection(db, "quotes"), data);
   return result;
 };
+
+
+/*
+Dozvoli dodavanje, update i brisanje samo prijavljenim userima
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read;
+      allow write, update, delete: if request.auth != null;
+    }
+  }
+}
+*/
+
+/*
+Dozvoli pisanje, update i brisanje samo svojih citata prijavljenim userima
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read;
+      allow write, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
+*/

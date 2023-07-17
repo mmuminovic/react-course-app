@@ -32,7 +32,7 @@ const AddQuote = () => {
 
   const submitForm = async (values) => {
     try {
-      await addQuote(values);
+      await addQuote({ ...values, userId: authState.id });
       alert("Uspesno");
     } catch (err) {
       console.log(err);
