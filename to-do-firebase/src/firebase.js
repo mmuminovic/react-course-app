@@ -10,6 +10,13 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithCustomToken,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -24,6 +31,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
+export const auth = getAuth(firebaseApp);
 
 export const getToDoList = async () => {
   const todolistCollection = collection(db, "todo-list");
@@ -71,4 +79,46 @@ export const deleteAllToDoItems = async () => {
         console.error("Error deleting document: ", error);
       });
   });
+};
+
+export const signUp = async ({ email, password }) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+};
+
+export const login = async ({ email, password }) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+};
+
+export const signInWithToken = async (token) => {
+  try {
+    const userCredential = await signInWithCustomToken(auth, token);
+    const user = userCredential.user;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+};
+
+export const logout = async () => {
+  await signOut(auth);
 };

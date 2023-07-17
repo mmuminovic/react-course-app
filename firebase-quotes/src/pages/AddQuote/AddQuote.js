@@ -4,6 +4,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Navigate, useNavigate } from "react-router-dom";
 import { addQuote } from "../../firebase";
+import Layout from "../../containers/Layout/Layout";
+import { useSelector } from "react-redux";
 
 const newQuoteSchema = yup.object({
   text: yup
@@ -25,7 +27,8 @@ const newQuoteSchema = yup.object({
 
 const AddQuote = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
+  const authState = useSelector((state) => state.auth);
+  console.log(authState, "authState");
 
   const submitForm = async (values) => {
     try {
@@ -36,75 +39,76 @@ const AddQuote = () => {
     }
   };
 
-  if (!token) {
+  if (!authState.id) {
     return <Navigate to={"/login"} replace={true} />;
   }
 
   return (
-    <div className="add-quote-wrapper">
-      <Formik
-        initialValues={{
-          text: "",
-          author: "",
-          source: "",
-          likes: 0,
-        }}
-        validationSchema={newQuoteSchema}
-        onSubmit={(values, actions) => {
-          submitForm(values);
-          // actions.resetForm();
-        }}
-      >
-        {({
-          values, // formikov state => { email: "", password: "" }
-          errors, // errors = { email: 'Neispravan email', password: 'Password is required field' }
-          touched, // touched = { email: true }
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => (
-          <div>
+    <Layout>
+      <div className="add-quote-wrapper">
+        <Formik
+          initialValues={{
+            text: "",
+            author: "",
+            source: "",
+            likes: 0,
+          }}
+          validationSchema={newQuoteSchema}
+          onSubmit={(values, actions) => {
+            submitForm(values);
+            // actions.resetForm();
+          }}
+        >
+          {({
+            values, // formikov state => { email: "", password: "" }
+            errors, // errors = { email: 'Neispravan email', password: 'Password is required field' }
+            touched, // touched = { email: true }
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
             <div>
-              <p>Text</p>
-              <input
-                type="text"
-                name="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.text}
-              />
-              <p className="error-message">
-                {errors.text && touched.text && errors.text}
-              </p>
-            </div>
-            <div>
-              <p>Author</p>
-              <input
-                type="text"
-                name="author"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.author}
-              />
-              <p className="error-message">
-                {errors.author && touched.author && errors.author}
-              </p>
-            </div>
-            <div>
-              <p>Source</p>
-              <input
-                type="text"
-                name="source"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.source}
-              />
-              <p className="error-message">
-                {errors.source && touched.source && errors.source}
-              </p>
-            </div>
+              <div>
+                <p>Text</p>
+                <input
+                  type="text"
+                  name="text"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.text}
+                />
+                <p className="error-message">
+                  {errors.text && touched.text && errors.text}
+                </p>
+              </div>
+              <div>
+                <p>Author</p>
+                <input
+                  type="text"
+                  name="author"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.author}
+                />
+                <p className="error-message">
+                  {errors.author && touched.author && errors.author}
+                </p>
+              </div>
+              <div>
+                <p>Source</p>
+                <input
+                  type="text"
+                  name="source"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.source}
+                />
+                <p className="error-message">
+                  {errors.source && touched.source && errors.source}
+                </p>
+              </div>
 
-            {/* <button
+              {/* <button
               onClick={() => {
                 console.log(values, "values");
               }}
@@ -112,13 +116,14 @@ const AddQuote = () => {
             >
               Show values
             </button> */}
-            <button onClick={handleSubmit} type="button">
-              Submit
-            </button>
-          </div>
-        )}
-      </Formik>
-    </div>
+              <button onClick={handleSubmit} type="button">
+                Submit
+              </button>
+            </div>
+          )}
+        </Formik>
+      </div>
+    </Layout>
   );
 };
 

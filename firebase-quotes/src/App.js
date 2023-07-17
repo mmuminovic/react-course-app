@@ -14,19 +14,12 @@ import { authSlice } from "./store/authSlice";
 import { ThemeProvider } from "@mui/material";
 import { themeDark } from "./styles/themeDark";
 import { themeLight } from "./styles/themeLight";
+import { auth, firebaseApp, signInWithToken } from "./firebase";
 
 const App = () => {
   const dispatch = useDispatch();
   const themeState = useSelector((state) => state.theme);
   const selectedTheme = themeState.theme === "light" ? themeLight : themeDark;
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      const decoded = jwtDecode(token);
-      dispatch(authSlice.actions.setData(decoded));
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={selectedTheme}>

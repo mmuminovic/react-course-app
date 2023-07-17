@@ -1,6 +1,8 @@
 import React from "react";
 import "./Register.css";
 import { Formik } from "formik";
+import { signUp } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -10,8 +12,10 @@ const initialValues = {
 };
 
 const Register = () => {
-  const submitForm = (values) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const submitForm = async (values) => {
+    await signUp(values.email, values.password, values.fullName);
+    navigate("/");
   };
 
   return (
@@ -35,6 +39,7 @@ const Register = () => {
               <input
                 type="text"
                 name="fullName"
+                placeholder="fullName"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.fullName}
@@ -47,6 +52,7 @@ const Register = () => {
               <input
                 type="email"
                 name="email"
+                placeholder="email"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -59,6 +65,7 @@ const Register = () => {
               <input
                 type="password"
                 name="password"
+                placeholder="password"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
@@ -71,6 +78,7 @@ const Register = () => {
               <input
                 type="password"
                 name="confirmPassword"
+                placeholder="confirmPassword"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.confirmPassword}

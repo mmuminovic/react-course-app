@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import {
   addToDoItem,
+  auth,
   deleteAllToDoItems,
   getToDoList,
+  login,
+  logout,
+  signUp,
   updateToDoItemData,
 } from "./firebase";
 import { Button, Box, Typography } from "@mui/material";
@@ -12,6 +16,8 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 const App = (props) => {
   const [taskName, setTaskName] = useState("");
   const [toDoList, setToDoList] = useState([]);
+
+  console.log(auth.currentUser);
 
   const getAllItems = () => {
     getToDoList().then((data) => {
@@ -47,6 +53,16 @@ const App = (props) => {
     updateToDoItemData(item.id, { done: !item.done }).then(() => {
       getAllItems();
     });
+  };
+
+  const handleLogin = () => {
+    login({ email: "muminovic.muhamed01@gmail.com", password: "muhamed123" });
+  };
+  const handleSignUp = () => {
+    signUp({ email: "muminovic.muhamed01@gmail.com", password: "muhamed123" });
+  };
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -102,6 +118,12 @@ const App = (props) => {
             Clear All
           </Button>
         </div>
+        <Button onClick={handleLogin}>Login</Button>
+        <Button onClick={handleSignUp}>Sign up</Button>
+        <Button onClick={handleLogout}>Logout</Button>
+        <Typography color={auth.currentUser ? "primary" : "error"}>
+          Status: {auth.currentUser ? "Logged in" : "Not authenticated"}
+        </Typography>
       </div>
     </div>
   );

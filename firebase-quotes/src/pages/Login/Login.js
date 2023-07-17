@@ -3,9 +3,7 @@ import "./Login.css";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { authSlice } from "../../store/authSlice";
+import { login } from "../../firebase";
 
 const loginSchema = yup.object({
   email: yup
@@ -29,32 +27,10 @@ const loginSchema = yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const submitForm = (values) => {
-    fetch("https://js-course-server.onrender.com/user/login", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message) {
-          alert(data.message);
-        }
-
-        if (data.token) {
-          const decoded = jwtDecode(data.token);
-          dispatch(authSlice.actions.setData(decoded));
-          localStorage.setItem("authToken", data.token);
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const submitForm = async (values) => {
+    await login(values.email, values.password);
+    navigate("/");
   };
 
   return (

@@ -10,6 +10,16 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signOut,
+  signInWithEmailAndPassword,
+  signInWithCustomToken,
+} from "firebase/auth";
+import { store } from "./store/store";
+import { authSlice } from "./store/authSlice";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // CRUD = Create, Read, Update, Delete
@@ -27,8 +37,66 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore(firebaseApp);
+export const auth = getAuth(firebaseApp);
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    store.dispatch(
+      authSlice.actions.setData({
+        id: user.uid,
+        email: user.email,
+        fullName: user.displayName,
+        token: user.accessToken,
+      })
+    );
+  } else {
+    store.dispatch(authSlice.actions.logout());
+  }
+});
+
+export const signUp = async (email, password, fullName) => {
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+  const user = userCredential.user;
+  store.dispatch(
+    authSlice.actions.setData({
+      id: user.uid,
+      email: user.email,
+      fullName: user.displayName,
+      token: user.accessToken,
+    })
+  );
+  return user;
+};
+
+export const logout = async () => {
+  await signOut(auth);
+  store.dispatch(authSlice.actions.logout());
+};
+
+export const login = async (email, password) => {
+  const userCredential = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+  const user = userCredential.user;
+  console.log(user);
+  store.dispatch(
+    authSlice.actions.setData({
+      id: user.uid,
+      email: user.email,
+      fullName: user.displayName,
+      token: user.accessToken,
+    })
+  );
+  return user;
+};
 
 export const getQuotes = async () => {
   const quotesCollection = collection(db, "quotes");

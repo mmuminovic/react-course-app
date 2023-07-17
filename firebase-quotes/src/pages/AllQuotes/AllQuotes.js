@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./AllQuotes.css";
 import QuoteCard from "../../components/QuoteCard/QuoteCard";
-import { authSlice } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../containers/Layout/Layout";
 import { Grid } from "@mui/material";
-import { getQuotes } from "../../firebase";
+import { getQuotes, auth } from "../../firebase";
 
 const AllQuotes = () => {
   const [quotes, setQuotes] = useState([]);
