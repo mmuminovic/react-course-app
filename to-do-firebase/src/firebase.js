@@ -9,6 +9,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  where,
+  query,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -44,6 +46,21 @@ export const getToDoList = async () => {
   return todolistList;
 };
 
+export const getToDoListForUser = async () => {
+  const todolistCollection = collection(db, "todo-list");
+  const dbquery = query(
+    todolistCollection,
+    where("userId", "==", auth.currentUser?.uid || "")
+  );
+  const todolistResults = await getDocs(dbquery);
+  const todolistList = todolistResults.docs.map((doc) => {
+    const data = doc.data();
+    const id = doc.id;
+    return { ...data, id: id };
+  });
+  return todolistList;
+};
+
 export const getToDoItemById = async (id) => {
   const docRef = doc(db, "todo-list", id);
   const docSnap = await getDoc(docRef);
@@ -62,7 +79,10 @@ export const deleteToDoItem = async (id) => {
 };
 
 export const addToDoItem = async (data) => {
-  const result = await addDoc(collection(db, "todo-list"), data);
+  const result = await addDoc(collection(db, "todo-list"), {
+    ...data,
+    userId: auth.currentUser.uid,
+  });
   return result;
 };
 
@@ -102,16 +122,6 @@ export const login = async ({ email, password }) => {
       email,
       password
     );
-    const user = userCredential.user;
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  }
-};
-
-export const signInWithToken = async (token) => {
-  try {
-    const userCredential = await signInWithCustomToken(auth, token);
     const user = userCredential.user;
   } catch (error) {
     const errorCode = error.code;

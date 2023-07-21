@@ -14,7 +14,7 @@ import { authSlice } from "./store/authSlice";
 import { ThemeProvider } from "@mui/material";
 import { themeDark } from "./styles/themeDark";
 import { themeLight } from "./styles/themeLight";
-import { auth, firebaseApp, signInWithToken } from "./firebase";
+import { auth, firebaseApp } from "./firebase";
 
 const App = () => {
   const dispatch = useDispatch();

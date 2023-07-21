@@ -5,6 +5,7 @@ import {
   auth,
   deleteAllToDoItems,
   getToDoList,
+  getToDoListForUser,
   login,
   logout,
   signUp,
@@ -17,13 +18,17 @@ const App = (props) => {
   const [taskName, setTaskName] = useState("");
   const [toDoList, setToDoList] = useState([]);
 
-  console.log(auth.currentUser);
-
   const getAllItems = () => {
-    getToDoList().then((data) => {
+    getToDoListForUser().then((data) => {
       setToDoList(data);
     });
   };
+
+  useEffect(() => {
+    auth.onAuthStateChanged(() => {
+      getAllItems();
+    });
+  }, []);
 
   useEffect(() => {
     getAllItems();
@@ -58,8 +63,11 @@ const App = (props) => {
   const handleLogin = () => {
     login({ email: "muminovic.muhamed01@gmail.com", password: "muhamed123" });
   };
+  const handleLogin2 = () => {
+    login({ email: "muminovic.muhamed02@gmail.com", password: "muhamed123" });
+  };
   const handleSignUp = () => {
-    signUp({ email: "muminovic.muhamed01@gmail.com", password: "muhamed123" });
+    signUp({ email: "muminovic.muhamed02@gmail.com", password: "muhamed123" });
   };
   const handleLogout = () => {
     logout();
@@ -118,7 +126,8 @@ const App = (props) => {
             Clear All
           </Button>
         </div>
-        <Button onClick={handleLogin}>Login</Button>
+        <Button onClick={handleLogin}>Login 01</Button>
+        <Button onClick={handleLogin2}>Login 02</Button>
         <Button onClick={handleSignUp}>Sign up</Button>
         <Button onClick={handleLogout}>Logout</Button>
         <Typography color={auth.currentUser ? "primary" : "error"}>
