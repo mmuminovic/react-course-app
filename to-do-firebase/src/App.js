@@ -13,10 +13,12 @@ import {
 } from "./firebase";
 import { Button, Box, Typography } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { useTranslation } from "react-i18next";
 
 const App = (props) => {
   const [taskName, setTaskName] = useState("");
   const [toDoList, setToDoList] = useState([]);
+  const { t, i18n } = useTranslation();
 
   const getAllItems = () => {
     getToDoListForUser().then((data) => {
@@ -73,11 +75,24 @@ const App = (props) => {
     logout();
   };
 
+  const handleChangeLanguage = (language) => {
+    i18n.changeLanguage(language);
+    localStorage.setItem("i18nextLng", language);
+  };
+
+  // useEffect(() => {
+  //   const lng = localStorage.getItem("i18nextLng");
+  //   if (lng) {
+  //     i18n.changeLanguage(lng);
+  //   }
+  // }, []);
+
   return (
     <div className="container">
       <div className="todo__box">
+        <h1>{t("welcome")}</h1>
         <div className="title">
-          <h2 className="h__todo">Todo App</h2>
+          <h2 className="h__todo">{t("todoAppName")}</h2>
         </div>
         <div className="form">
           <input
@@ -119,8 +134,9 @@ const App = (props) => {
         </div>
         <div className="footerr">
           <p className="p">
-            You have <span id="numberOfItems">{toDoList.length}</span> pending
-            tasks
+            {toDoList.length === 1
+              ? t("numPendingTasks", { num: 1 })
+              : t("numPendingTasksMore", { num: toDoList.length })}
           </p>
           <Button variant="contained" color="error" onClick={clearAllItems}>
             Clear All
@@ -133,6 +149,10 @@ const App = (props) => {
         <Typography color={auth.currentUser ? "primary" : "error"}>
           Status: {auth.currentUser ? "Logged in" : "Not authenticated"}
         </Typography>
+        <div>
+          <Button onClick={() => handleChangeLanguage("en")}>English</Button>
+          <Button onClick={() => handleChangeLanguage("rs")}>Srpski</Button>
+        </div>
       </div>
     </div>
   );

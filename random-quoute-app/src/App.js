@@ -1,6 +1,17 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import axios from "axios";
+
+axios.defaults.baseURL = "https://js-course-server.onrender.com";
+
+axios.defaults.headers.common.Authorization = `Bearer UDHWiuadhiuahwuiduiwahd`;
+
+axios.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    // odjavi me
+  }
+});
 
 class App extends React.Component {
   state = {
@@ -14,9 +25,10 @@ class App extends React.Component {
   }
 
   getRandomQuote() {
-    fetch("https://js-course-server.onrender.com/quotes/get-random-quote")
-      .then((res) => res.json())
-      .then((data) => {
+    axios
+      .get("/quotes/get-random-quote")
+      .then((res) => {
+        const data = res.data;
         /*
         data = {
             "quoteId": "63dfc2b46a91670035c4ec6a",

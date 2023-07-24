@@ -1,0 +1,6 @@
+{
+  "welcome": "Welcome",
+  "todoAppName": "To-Do App",
+  "numPendingTasks": "You have {{num}} pending tasks",
+  "numPendingTasksMore": "You have {{num}} pending tasks"
+}
