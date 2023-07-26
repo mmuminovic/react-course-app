@@ -75,6 +75,10 @@ const App = (props) => {
     logout();
   };
 
+  const sayHelloWorld = () => {
+    alert("Hello world!");
+  };
+
   const handleChangeLanguage = (language) => {
     i18n.changeLanguage(language);
     localStorage.setItem("i18nextLng", language);
@@ -147,6 +151,7 @@ const App = (props) => {
         <Button onClick={handleLogin2}>Login 02</Button>
         <Button onClick={handleSignUp}>Sign up</Button>
         <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={sayHelloWorld}>Say Hello World</Button>
         <Typography color={auth.currentUser ? "primary" : "error"}>
           Status: {auth.currentUser ? "Logged in" : "Not authenticated"}
         </Typography>
