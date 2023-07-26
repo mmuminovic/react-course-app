@@ -143,6 +143,7 @@ const App = (props) => {
           </Button>
         </div>
         <Button onClick={handleLogin}>Login 01 - Branch 01</Button>
+        <Button onClick={handleLogin}>Login 01 - Branch 02</Button>
         <Button onClick={handleLogin2}>Login 02</Button>
         <Button onClick={handleSignUp}>Sign up</Button>
         <Button onClick={handleLogout}>Logout</Button>
