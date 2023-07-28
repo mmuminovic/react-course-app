@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../containers/Layout/Layout";
 import { Grid } from "@mui/material";
 import { getQuotes, auth } from "../../firebase";
+import AllQuotesContainer from "../../containers/Layout/AllQuotesContainer";
 
 const AllQuotes = () => {
   const [quotes, setQuotes] = useState([]);
@@ -26,11 +27,7 @@ const AllQuotes = () => {
 
   return (
     <Layout>
-      <Grid container spacing={2}>
-        {quotes.map((quote, index) => {
-          return <QuoteCard key={index} quote={quote} />;
-        })}
-      </Grid>
+      <AllQuotesContainer quotes={quotes} />
     </Layout>
   );
 };

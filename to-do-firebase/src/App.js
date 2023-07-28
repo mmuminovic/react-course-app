@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import "./App.css";
 import {
   addToDoItem,
@@ -15,26 +21,42 @@ import { Button, Box, Typography } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { useTranslation } from "react-i18next";
 
-const App = (props) => {
+const App = () => {
   const [taskName, setTaskName] = useState("");
   const [toDoList, setToDoList] = useState([]);
   const { t, i18n } = useTranslation();
+  const [search, setSearch] = useState("");
+  const inputRef = useRef();
+  const buttonRef = useRef();
 
-  const getAllItems = () => {
+  const foundItems = useMemo(() => {
+    return toDoList.filter((item) => item.title.includes(search));
+  }, [search]);
+
+  const firstToDoWithReadWord = useMemo(() => {
+    console.log("recalculating firstToDoWithReadWord");
+    return toDoList.find((item) => item.title.includes("read"));
+  }, [toDoList]);
+
+  const getAllItems = useCallback(() => {
     getToDoListForUser().then((data) => {
       setToDoList(data);
     });
-  };
+  }, []);
+
+  const amIGoingToRead = useMemo(() => {
+    return taskName.toLowerCase().includes("read");
+  }, [taskName]);
 
   useEffect(() => {
     auth.onAuthStateChanged(() => {
       getAllItems();
     });
-  }, []);
+  }, [getAllItems]);
 
   useEffect(() => {
     getAllItems();
-  }, []);
+  }, [getAllItems]);
 
   const addNewTask = () => {
     const itemData = {
@@ -44,10 +66,11 @@ const App = (props) => {
       done: false,
     };
 
-    addToDoItem(itemData).then(() => {
-      getAllItems();
-      setTaskName("");
-    });
+    setToDoList([...toDoList, itemData]);
+    // addToDoItem(itemData).then(() => {
+    //   getAllItems();
+    //   setTaskName("");
+    // });
   };
 
   const clearAllItems = () => {
@@ -90,6 +113,12 @@ const App = (props) => {
   //     i18n.changeLanguage(lng);
   //   }
   // }, []);
+  if (inputRef) {
+    // console.log(inputRef.current);
+  }
+  if (buttonRef) {
+    console.log(buttonRef.current);
+  }
 
   return (
     <div className="container">
@@ -98,8 +127,10 @@ const App = (props) => {
         <div className="title">
           <h2 className="h__todo">{t("todoAppName")}</h2>
         </div>
+        {amIGoingToRead && <p>Go ahead!</p>}
         <div className="form">
           <input
+            ref={inputRef}
             id="taskName"
             placeholder="Add your new todo"
             value={taskName}
@@ -151,7 +182,9 @@ const App = (props) => {
         <Button onClick={handleLogin2}>Login 02</Button>
         <Button onClick={handleSignUp}>Sign up</Button>
         <Button onClick={handleLogout}>Logout</Button>
-        <Button onClick={sayHelloWorld}>Say Hello World</Button>
+        <Button ref={buttonRef} onClick={sayHelloWorld}>
+          Say Hello World
+        </Button>
         <Typography color={auth.currentUser ? "primary" : "error"}>
           Status: {auth.currentUser ? "Logged in" : "Not authenticated"}
         </Typography>
